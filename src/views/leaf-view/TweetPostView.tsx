@@ -7,6 +7,7 @@ import {Textarea} from "@mui/joy";
 import {Send} from "@mui/icons-material";
 import {parseTweetsBlockFromDailyNote} from "./parseTweetsBlockFromDailyNote";
 import MyPlugin from "../../main";
+import {obsidian} from "../../foundations";
 
 export type TweetPostViewOptions = {
 	app: App,
@@ -39,8 +40,8 @@ export function TweetPostView(options: TweetPostViewOptions): JSX.Element {
 				variant='soft'
 				onChange={(e) => setTweet(e.target.value)}
 				sx={{
-					backgroundColor: 'var(--background-primary)',
-					color: 'var(--text-normal)',
+					backgroundColor: obsidian.var('--background-primary'),
+					color: obsidian.var('--text-normal'),
 					boxShadow: 'none',
 				}}
 				placeholder="What's up..."
@@ -57,7 +58,7 @@ export function TweetPostView(options: TweetPostViewOptions): JSX.Element {
 							gap: 'var(--Textarea-paddingBlock)',
 							pt: 'var(--Textarea-paddingBlock)',
 							borderTop: '1px solid',
-							borderColor: 'var(--background-modifier-border-focus)',
+							borderColor: obsidian.var('--background-modifier-border-focus'),
 						}}
 					>
 						<Button

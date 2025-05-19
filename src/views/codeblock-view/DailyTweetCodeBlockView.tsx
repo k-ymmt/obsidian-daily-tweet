@@ -18,7 +18,6 @@ export function DailyTweetCodeBlockView(options: DailyTweetCodeBlockViewOptions)
 	const codeBlock = useMemo(() => {
 		return parseDailyTweetCodeBlock(options.source);
 	}, [options.source]);
-	console.log('tweet:', codeBlock.tweet);
 	return (
 		<Card
 			sx={{

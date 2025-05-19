@@ -1,20 +1,11 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import {App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, View} from 'obsidian';
 import {DailyTweetView} from "./DailyTweetView";
 import {createRoot, Root} from "react-dom/client";
 import {createDailyTweetCodeBlock} from "./views/codeblock-view/DailyTweetCodeBlockView";
+import {DailyTweetSettings, DailyTweetSettingTab, DEFAULT_SETTINGS} from "./settings";
 
-// Remember to rename these classes and interfaces!
-
-interface MyPluginSettings {
-	mySetting: string;
-}
-
-const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
-}
-
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+export default class DailyTweetPlugin extends Plugin {
+	settings: DailyTweetSettings;
 	public view?: DailyTweetView;
 
 	async onload() {
@@ -26,7 +17,7 @@ export default class MyPlugin extends Plugin {
 		});
 
 		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('pencil', 'Daily Tweet', async (evt: MouseEvent) => {
+		this.addRibbonIcon('pencil', 'Daily Tweet', async (evt: MouseEvent) => {
 			// Called when the user clicks the icon.
 			const existed = this.app.workspace.getLeavesOfType(DailyTweetView.VIEW_TYPE).at(0);
 			if(existed) {
@@ -34,7 +25,17 @@ export default class MyPlugin extends Plugin {
 				return;
 			}
 
-			const leaf = this.app.workspace.getRightLeaf(false);
+			const leaf = (() => {
+				const leaf = this.settings.leaf
+				switch(leaf) {
+					case "right":
+						return this.app.workspace.getRightLeaf(false);
+					case 'left':
+						return this.app.workspace.getLeftLeaf(false);
+					case 'current':
+						return this.app.workspace.getActiveViewOfType(View)?.leaf
+				}
+			})()
 			if(!leaf) {
 				new Notice('Invalid leaf');
 				return;
@@ -51,6 +52,8 @@ export default class MyPlugin extends Plugin {
 			createDailyTweetCodeBlock(div, source);
 			el.appendChild(div);
 		})
+
+		this.addSettingTab(new DailyTweetSettingTab(this));
 	}
 
 	onunload() {
@@ -64,20 +67,8 @@ export default class MyPlugin extends Plugin {
 	async saveSettings() {
 		await this.saveData(this.settings);
 	}
-}
 
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		const {contentEl} = this;
-		contentEl.setText('Woah!');
-	}
-
-	onClose() {
-		const {contentEl} = this;
-		contentEl.empty();
+	renderView() {
+		this.view?.updateSettings()
 	}
 }

@@ -6,10 +6,12 @@ type LeafCategory = typeof LEAFS[number];
 
 export type DailyTweetSettings = {
 	leaf: LeafCategory,
+	openOnLoad: boolean,
 }
 
 export const DEFAULT_SETTINGS: DailyTweetSettings = {
 	leaf: 'right',
+	openOnLoad: false,
 }
 
 export class DailyTweetSettingTab extends PluginSettingTab{
@@ -34,6 +36,18 @@ export class DailyTweetSettingTab extends PluginSettingTab{
 						this.plugin.settings.leaf = value as LeafCategory;
 						await this.plugin.saveSettings();
 						this.plugin.renderView();
+					})
+			})
+
+		new Setting(containerEl)
+			.setName('Auto open on load')
+			.setDesc('Open view on load')
+			.addToggle(component => {
+				component
+					.setValue(this.plugin.settings.openOnLoad)
+					.onChange(async value => {
+						this.plugin.settings.openOnLoad = value;
+						await this.plugin.saveSettings();
 					})
 			})
 	}

@@ -2,7 +2,8 @@ import {App, normalizePath, TFile} from "obsidian";
 import moment from 'moment'
 
 const DEFAULT_DAILY_NOTE_FORMAT = 'YYYY-MM-DD';
-const TWEET_HEADER = '## Tweets\n'
+export const TWEET_HEADER = '## Tweets\n'
+export const TWEET_FOOTER = '---\n';
 
 export type DailyNoteOptions = {
 	folder: string,
@@ -62,7 +63,7 @@ export async function addTweetToDailyNote(tweet: string, dailyNote: TFile, app: 
 	let content = await app.vault.adapter.read(dailyNote.path);
 	let headerIndex = content.indexOf(TWEET_HEADER);
 	if (headerIndex < 0) {
-		content = `${content}\n${TWEET_HEADER}\n---\n`;
+		content = `${content}\n${TWEET_HEADER}\n${TWEET_FOOTER}`;
 		headerIndex = content.indexOf(TWEET_HEADER);
 	}
 	const insertIndex = headerIndex + TWEET_HEADER.length;

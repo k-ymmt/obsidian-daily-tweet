@@ -1,20 +1,22 @@
 import {JSX, useEffect, useMemo, useRef, useState} from "react";
-import {Box, Stack, Typography} from "@mui/material";
+import {Box, Container, IconButton, Stack, Typography} from "@mui/material";
 import {App} from "obsidian";
 import {TweetPostView} from "./TweetPostView";
 import MyPlugin from "../../main";
 import {getDailyNote} from "../../dailyNotes";
 import {parseTweetsBlockFromDailyNote} from "./parseTweetsBlockFromDailyNote";
 import moment from "moment";
+import {Cached} from "@mui/icons-material";
 
 export type WorkspaceOptions = {
 	plugin: MyPlugin,
 }
 
 export function TweetView(options: WorkspaceOptions): JSX.Element {
+	const getToday = () => moment().startOf('day');
 	const {plugin} = options;
 	const {app} = plugin;
-	const today = moment().startOf('day');
+	const [today, setToday] = useState(getToday());
 	const [tweets, setTweets] = useState<Element[]>([]);
 	const dailyNote = useMemo(() => {
 		return getDailyNote(app, today);
@@ -22,7 +24,7 @@ export function TweetView(options: WorkspaceOptions): JSX.Element {
 	useEffect(() => {
 		if (dailyNote && plugin.view) {
 			parseTweetsBlockFromDailyNote(dailyNote, app, plugin.view).then(nodes => {
-				if(nodes) {
+				if (nodes) {
 					setTweets(nodes)
 				}
 			})
@@ -41,7 +43,38 @@ export function TweetView(options: WorkspaceOptions): JSX.Element {
 				paddingBottom: '12px',
 			}}
 		>
-			<Typography component="h2">Tweet View</Typography>
+			<Stack
+				direction="row"
+				alignItems="center"
+			>
+				<Typography
+					variant="subtitle1"
+					sx={{
+						flexGrow: 1,
+					}}
+				>
+					Tweet View
+				</Typography>
+				<Typography
+					variant="caption"
+					sx={{
+						paddingRight: '10px',
+					}}
+				>
+					{today.format('LL')}
+				</Typography>
+				<IconButton
+					sx={{
+						width: '32px',
+						height: '32px',
+					}}
+					onClick={() => {
+						setToday(() => getToday());
+					}}
+				>
+					<Cached/>
+				</IconButton>
+			</Stack>
 			<Box
 				sx={{
 					display: "flex",

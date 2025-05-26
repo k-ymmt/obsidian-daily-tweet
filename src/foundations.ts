@@ -42,10 +42,23 @@ type ObsidianBackgroundColorVariable =
   | '--background-modifier-message'
   | '--background-modifier-form-field';
 
+type ObsidianInteractiveColorVariable =
+	| '--interactive-normal'
+	| '--interactive-hover'
+	| '--interactive-accent'
+	| '--interactive-accent-hsl'
+	| '--interactive-accent-hover'
+
+type ObsidianTextBackgroundColorVariable =
+	| '--text-selection'
+	| '--text-highlight-bg'
+
 type ObsidianColorVariable = ObsidianBaseColorVariable
 	| ObsidianAccentColorVariable
 	| ObsidianTextColorVariable
-	| ObsidianBackgroundColorVariable;
+	| ObsidianBackgroundColorVariable
+	| ObsidianInteractiveColorVariable
+	| ObsidianTextBackgroundColorVariable;
 
 export const obsidian = {
 	var(variable: ObsidianColorVariable): string {

@@ -1,6 +1,5 @@
-import {App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, View} from 'obsidian';
+import {Notice, Plugin, View} from 'obsidian';
 import {DailyTweetView} from "./DailyTweetView";
-import {createRoot, Root} from "react-dom/client";
 import {createDailyTweetCodeBlock} from "./views/codeblock-view/DailyTweetCodeBlockView";
 import {DailyTweetSettings, DailyTweetSettingTab, DEFAULT_SETTINGS} from "./settings";
 

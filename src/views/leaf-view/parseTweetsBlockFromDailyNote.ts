@@ -1,11 +1,10 @@
 import {App, MarkdownRenderer, TFile} from "obsidian";
-import {DailyTweetCodeBlock} from "../codeblock-view/parseDailyTweetCodeBlock";
 import {DailyTweetView} from "../../DailyTweetView";
 import {TWEET_FOOTER, TWEET_HEADER} from "../../dailyNotes";
 
 export async function parseTweetsBlockFromDailyNote(dailyNote: TFile, app: App, tweetView: DailyTweetView): Promise<Element[] | undefined> {
 	const content = await app.vault.adapter.read(dailyNote.path)
-	const match = content.match(new RegExp(`${TWEET_HEADER}\s*([\s\S]*?)^${TWEET_FOOTER})`, 'm'));
+	const match = content.match(new RegExp(`${TWEET_HEADER}\s*([\s\S]*?)^${TWEET_FOOTER}`, 'm'));
 	if (!match) {
 		return undefined;
 	}

@@ -1,12 +1,9 @@
-import {App, Plugin, TFile} from "obsidian";
-import {JSX, KeyboardEvent, useCallback, useMemo, useState} from "react";
-import moment from "moment/moment";
-import {addTweetToDailyNote, getDailyNote} from "../../dailyNotes";
+import {App, TFile} from "obsidian";
+import {JSX, KeyboardEvent, useCallback, useState} from "react";
+import {addTweetToDailyNote} from "../../dailyNotes";
 import {Box, Button, FormControl} from "@mui/material";
 import {Textarea} from "@mui/joy";
 import {Send} from "@mui/icons-material";
-import {parseTweetsBlockFromDailyNote} from "./parseTweetsBlockFromDailyNote";
-import MyPlugin from "../../main";
 import {obsidian} from "../../foundations";
 
 export type TweetPostViewOptions = {
@@ -49,6 +46,7 @@ export function TweetPostView(options: TweetPostViewOptions): JSX.Element {
 				value={tweet}
 				onKeyDown={async (e) => {
 					await onTextAreaKeyDown(e)
+
 				}}
 				endDecorator={
 					<Box
@@ -68,8 +66,8 @@ export function TweetPostView(options: TweetPostViewOptions): JSX.Element {
 							disabled={!canTweet}
 							sx={{
 								ml: 'auto',
-								backgroundColor: 'var(--interactive-accent)',
-								color: 'var(--text-on-accent)'
+								backgroundColor: obsidian.var('--interactive-accent'),
+								color: obsidian.var('--text-on-accent'),
 							}}
 						>
 							Tweet

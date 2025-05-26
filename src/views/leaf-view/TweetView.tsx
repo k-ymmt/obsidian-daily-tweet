@@ -1,6 +1,5 @@
 import {JSX, useEffect, useMemo, useRef, useState} from "react";
-import {Box, Container, IconButton, Stack, Typography} from "@mui/material";
-import {App} from "obsidian";
+import {Box, IconButton, Stack, Typography} from "@mui/material";
 import {TweetPostView} from "./TweetPostView";
 import MyPlugin from "../../main";
 import {getDailyNote} from "../../dailyNotes";

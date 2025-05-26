@@ -1,6 +1,6 @@
 import {JSX, useMemo} from "react";
 import {parseDailyTweetCodeBlock} from "./parseDailyTweetCodeBlock";
-import {Box, Card, CardContent, Stack, Typography} from "@mui/material";
+import {Card, CardContent, Typography} from "@mui/material";
 import {createRoot, Root} from "react-dom/client";
 import {obsidian} from 'foundations';
 
@@ -20,6 +20,7 @@ export function DailyTweetCodeBlockView(options: DailyTweetCodeBlockViewOptions)
 	}, [options.source]);
 	return (
 		<Card
+			variant="elevation"
 			sx={{
 				backgroundColor: obsidian.var('--background-modifier-hover'),
 			}}
@@ -36,7 +37,7 @@ export function DailyTweetCodeBlockView(options: DailyTweetCodeBlockViewOptions)
 					{codeBlock.tweet}
 				</Typography>
 				<Typography
-					variant='caption'
+					variant='overline'
 					sx={{
 						color: obsidian.var('--text-muted'),
 					}}

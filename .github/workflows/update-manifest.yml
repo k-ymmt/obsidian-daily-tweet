@@ -31,21 +31,21 @@ jobs:
           # Set git identity for npm version command
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-
+          
           # Update package.json version with minor version bump
           echo "Updating package.json with minor version bump"
           NEW_VERSION=$(npm version minor)
-
+          
           # Remove the 'v' prefix from the version string
           NEW_VERSION=${NEW_VERSION#v}
           echo "New version: $NEW_VERSION"
-
+          
           # Set the npm_package_version environment variable
           export npm_package_version=$NEW_VERSION
-
+          
           # Save the new version to an environment variable for later steps
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-
+          
           # Run version-bump.mjs
           node version-bump.mjs
 
@@ -54,16 +54,16 @@ jobs:
           # Add the files that weren't committed by npm version
           git add dist/manifest.json versions.json
           COMMIT_MSG="Update manifest.json and versions.json to version ${{ env.NEW_VERSION }}"
-
+          
           # Commit and push if there are changes
           git diff --staged --quiet || git commit -m "$COMMIT_MSG"
-
+          
           # Push both the commits and the tag created by npm version
           git push --follow-tags
 
       - name: Create GitHub Release
         env:
-            GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
           # Create a release with the tag that was already created
           gh release create "v${{ env.NEW_VERSION }}" \

@@ -1,7 +1,7 @@
 {
 	"id": "daily-tweet",
 	"name": "Daily Tweet",
-	"version": "0.3.0",
+	"version": "0.2.0",
 	"minAppVersion": "0.15.0",
 	"description": "Like tweet for obsidian",
 	"author": "k-ymmt",

@@ -28,6 +28,10 @@ jobs:
 
       - name: Update package.json version
         run: |
+          # Set git identity for npm version command
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
           # Update package.json version with minor version bump
           echo "Updating package.json with minor version bump"
           NEW_VERSION=$(npm version minor)
@@ -47,9 +51,6 @@ jobs:
 
       - name: Commit additional files and push changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-
           # Add the files that weren't committed by npm version
           git add dist/manifest.json versions.json
           COMMIT_MSG="Update manifest.json and versions.json to version ${{ env.NEW_VERSION }}"
@@ -66,7 +67,7 @@ jobs:
         run: |
           # Create a release with the tag that was already created
           gh release create "v${{ env.NEW_VERSION }}" \
-            --title "Version ${{ env.NEW_VERSION }}" \
+            --title "v${{ env.NEW_VERSION }}" \
             --generate-notes \
             --prerelease \
             dist/main.js dist/manifest.json dist/styles.css
